@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weatherman</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: {{ bg_color }};
+            --text: {{ text_color }};
+        }
+        body {
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            transition: background-color 1s ease, color 1s ease;
+            text-align: center;
+            padding: 40px 20px;
+            box-sizing: border-box;
+        }
+
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .editorial-content {
+            font-family: 'Playfair Display', serif;
+            margin-bottom: 3rem;
+            animation: fadeInDown 1s ease-out forwards;
+        }
+
+
+        h1 {
+            font-size: clamp(5rem, 12vw, 9rem);
+            margin: 0;
+            letter-spacing: -0.02em;
+            font-weight: 700;
+            line-height: 1;
+        }
+
+        p.snark {
+            font-size: clamp(1.2rem, 3vw, 1.8rem);
+            max-width: 650px;
+            margin: 1.5rem auto 0 auto;
+            font-weight: 400;
+            font-style: italic;
+            opacity: 0.9;
+            line-height: 1.5;
+        }
+
+        .form-container {
+            padding: 3rem;
+            border: 1px solid color-mix(in srgb, var(--text) 15%, transparent);
+            border-radius: 2px;
+            max-width: 400px;
+            width: 100%;
+            box-sizing: border-box;
+            background: color-mix(in srgb, var(--bg) 97%, var(--text) 3%);
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            text-align: left;
+        }
+        label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 0.5rem;
+            opacity: 0.6;
+        }
+
+
+        input[type="text"] {
+            padding: 10px 0;
+            font-size: 1.1rem;
+            border: none;
+            border-bottom: 1px solid color-mix(in srgb, var(--text) 30%, transparent);
+            outline: none;
+            background: transparent;
+            color: var(--text);
+            font-family: 'Inter', sans-serif;
+            transition: border-color 0.3s ease;
+        }
+
+        input[type="text"]:focus {
+            border-bottom: 1px solid var(--text);
+        }
+        input[type="text"]::placeholder {
+            color: color-mix(in srgb, var(--text) 30%, transparent);
+            font-weight: 300;
+        }
+
+        button {
+            padding: 16px 24px;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            border: 1px solid var(--text);
+            border-radius: 2px;
+            background-color: var(--text);
+            color: var(--bg);
+            font-family: 'Inter', sans-serif;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        button:hover {
+            background-color: transparent;
+            color: var(--text);
+        }
+
+        .weather-info {
+            margin-top: 2rem;
+            font-size: 0.75rem;
+            opacity: 0.5;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="editorial-content">
+        <h1>{{ main_answer }}</h1>
+        <p class="snark">{{ snark }}</p>
+
+    </div>
+    <div class="form-container">
+        <form method="POST" action="/">
+            <div class="input-group">
+                <label for="city">Location</label>
+                <input type="text" id="city" name="city" placeholder="Enter a city name..." value="{{ city }}" required>
+
+            </div>
+            <button type="submit"> Ask the Weatherman</button>
+        </form>
+        <div class="weather-info">
+            Reported conditions: <strong>{{ weather }}</strong>
+        </div>
+    </div>
+    <script>
+        document.querySelectorAll('form').addEventListener('submit', function() {
+           const btn = this.querySelector('button');
+           btn.innerHTML = 'Consulting the weatherman...';
+           btn.style.opacity = '0.7';
+           btn.style.cursor = 'wait';
+        });
+    </script>
+</body>
+</html>
