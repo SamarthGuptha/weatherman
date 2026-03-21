@@ -1,8 +1,8 @@
 from flask import Flask, render_template, request
-import requests
+import requests, os
 
 app = Flask(__name__)
-API_KEY = "c0938c98881f18a0d2d3ea0d39d58ced"
+API_KEY = os.environ.get("API_KEY")
 
 def get_weather_data(city):
     try:
